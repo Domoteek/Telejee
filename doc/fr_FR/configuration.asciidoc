@@ -1,0 +1,56 @@
+﻿Pour plus d'information vous pouvez regarder une vidéo de présentation
+
+* https://www.youtube.com/watch?v=UTECRBGEUtI[Voir la vidéo]
+
+* Télécharger le Plugin Telejee sur le market.
+
+image::../images/Telejee_icon.png[align="center"]
+
+* Activer le.Puis choissisez votre bouquet et le type d'icônes
+
+image::../images/telejee1.png[align="center"]
+
+
+* Puis aller dans Plugins/Multimedia/Telejee
+
+image::../images/telejee3.png[align="center"]
+
+* Cliquer sur "charger le plugin". Cela créer un seul équipement et c'est celui-ci que vous devez configurer pour que le widget soit visible sur le dashboard. 
+
+image::../images/telejee4.png[align="center"]
+
+* Ensuite ajouter les chaînes que vous souhaitez en cliquant sur "ajouter des chaînes".Faites une par une si vous voulez un ordre précis.
+
+image::../images/telejee2.png[align="center"]
+
+
+* Ensuite vous devriez avoir un widget dans ce style sur le dashboard.Vous pouvez ajouter autant d'actions que vous voulez et gérer les scénarios.
+
+image::../images/tv6.png[align="center"]
+
+* Ensuite vous pouvez  définir des actions qui se déclencheront lorsqu'un clic est effectué sur un logo de chaine OU sur la petite icône "play".
+
+* Pour cela cliquer  sur *ajouter Action*+
+
+image::../images/telejee5.png[align="center"]
+
+* Ensuite les actions définies peuvent être éxécutées sur le widget en cliquant sur l'icône de la chaîne ou l'icône "play"
+
+image::../images/telejee6.png[align="center"]
+
+
+* Un clic sur l'image permet de visionner les détails du prgramme.
+
+image::../images/telejee7.png[align="center"]
+
+
+* La vue mobile est identique à celle sur le dashboard. Pas de problème non plus sur la vue design
+
+Pour plus d'information vous pouvez regarder une vidéo de présentation
+
+* https://www.youtube.com/watch?v=UTECRBGEUtI[Voir la vidéo]
+
+
+
+
+

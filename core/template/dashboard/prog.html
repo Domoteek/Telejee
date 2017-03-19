@@ -1,0 +1,275 @@
+<div class="eqLogic-widget eqLogic allowResize prog_tv"  data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="dashboard" style="overflow-x: hidden; overflow-y: scroll;width: #width#;height: #height#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#">
+    <div id="tabs">
+        <ul class="tabs">
+            <li class="inactif onglet" id="affiche-contenu-1" onclick="javascript:Affiche('1')";>Soirée</li>
+            <li class="inactif onglet" id="affiche-contenu-2" onclick="javascript:Affiche('2')";>Fin de soirée</li>
+            <li class="inactif onglet" id="affiche-contenu-3" onclick="javascript:Affiche('3')";>En ce moment</li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="contenu" id="contenu_1"></div>
+        <div class="contenu" id="contenu_2"></div>
+        <div class="contenu" id="contenu_3"></div>    
+    </div>
+
+</div>
+
+
+<script>
+
+	var Onglet_afficher = 1;
+	getMoment();
+	getProgNight();
+	setInterval(getMoment, 200000);
+	setInterval(getProgNight, 7200000);
+	function Affiche(Nom)
+	{
+	document.getElementById('affiche-contenu-'+Onglet_afficher).className = 'inactif onglet';
+	document.getElementById('affiche-contenu-'+Nom).className = 'affiche-contenu-1 onglet';
+     $('#contenu_'+Onglet_afficher).fadeOut("fast");
+     $('#contenu_'+Nom).fadeIn();
+	Onglet_afficher = Nom;
+	}
+
+function getProgNight() {
+    $.ajax({
+        type: 'POST',
+        url: 'plugins/Telejee/core/ajax/Telejee.ajax.php',
+		global: false,
+        data: {
+            action: 'getAllChaine',
+        },
+        dataType: 'json',
+        error: function (request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function (data) {
+			
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#tabs-1').empty();
+			
+			function compare(a,b) {
+			  if (a.id < b.id)
+				 return -1;
+			  if (a.id > b.id)
+				return 1;
+			  return 0;
+			}
+			
+		   data.result.sort(compare);
+           var html = '<table  class="">';
+		   var html2 = '<table  class="">';
+ 		   
+		   for(var i in data.result){
+			   
+			   html += '<tr><th><img src="'+data.result[i].logo+'" alt="'+data.result[i].id+'" class="img_logo"  /></th>';
+			   html += '<th><img src="'+data.result[i].image1+'" alt="'+data.result[i].lien1+'" class="img_lien"  /></th>';
+			   html += '<th><span class="heure">'+data.result[i].heure1+'</span> <span class="titre">'+data.result[i].titre1+'</span><br/><i align="'+data.result[i].id+'" class="fa fa-play-circle-o fa-2x img_logo_content"></th></tr>';
+			   
+			   html2 += '<tr><th><img src="'+data.result[i].logo+'"  alt="'+data.result[i].id+'" class="img_logo" /></th>';
+			   html2 += '<th><img src="'+data.result[i].image2+'" alt="'+data.result[i].lien2+'" class="img_lien"  /></th>';
+			   html2 += '<th><span class="heure">'+data.result[i].heure2+'</span> <span class="titre">'+data.result[i].titre2+'</span><br/><i align="'+data.result[i].id+'" class="fa fa-play-circle-o fa-2x img_logo_content"></i></th></tr>';
+		   }
+		   html += '</table>';
+		   html2 += '</table>';
+		   document.getElementById("contenu_1").innerHTML = html
+		   document.getElementById("contenu_2").innerHTML = html2
+
+		   $('.img_logo').click( function() {
+					launchActionChaine($( this ).attr('alt'), 'logo')
+			});	
+		   $('.img_logo_content').click( function() {
+					launchActionChaine( $( this ).attr('align'), 'play')
+		   }); 	
+		   
+		   $('.img_lien').on('click', function() {
+				  $('#md_modal').dialog({
+				      width : 500,
+				      height: 500,
+					  autoOpen: false,
+					  modal: true,
+					  title: "Informations"
+				  });
+				  
+				  var _id = $(this).attr('alt');
+				  $('#md_modal').load('index.php?v=d&plugin=Telejee&modal=Prog&id='+ _id);
+				  $('#md_modal').dialog('open');
+		   }); 	
+		   		   
+		   Affiche(Onglet_afficher);		   
+		   			
+	 	}
+	
+   });
+}
+
+function getMoment() {
+    $.ajax({
+        type: 'POST',
+        url: 'plugins/Telejee/core/ajax/Telejee.ajax.php',
+        data: {
+            action: 'getAllMoment',
+        },
+		global: false,
+        dataType: 'json',
+        error: function (request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function (data) {
+			
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+			
+			function compare(a,b) {
+			  if (a.id < b.id)
+				 return -1;
+			  if (a.id > b.id)
+				return 1;
+			  return 0;
+			}
+			
+		   data.result.sort(compare);
+           var html3 = '<table  class="">';
+
+ 		   
+		   for(var i in data.result){
+			   
+			   html3 += '<tr><th><img src="'+data.result[i].logo+'"  alt="'+data.result[i].id+'" class="img_logos"  /></th>';
+			   html3 += '<th><img src="'+data.result[i].image+'" alt="'+data.result[i].lien+'" class="img_lien"  /></th>';
+			   html3 += '<th><span class="heure">'+data.result[i].heure+'</span> <span class="titre">'+data.result[i].titre+'</span><br/><i align="'+data.result[i].id+'" class="fa fa-play-circle-o fa-2x img_logos_play"></th></tr>';
+			   
+
+		   }
+		   html3 += '</table>';
+          document.getElementById("contenu_3").innerHTML = html3
+		   $('.img_logos').click( function() {
+					launchActionChaine($( this ).attr('alt')-1, 'logo')
+			});	
+		   $('.img_logos_content').click( function() {
+					launchActionChaine($( this ).attr('align')-1, 'play')
+		   }); 
+		   
+		   $('.img_lien').on('click', function() {
+				  $('#md_modal').dialog({
+				      width : 500,
+				      height: 500,
+					  autoOpen: false,
+					  modal: true,
+					  title: "Informations"
+				  });
+				  
+				  var _id = $(this).attr('alt');
+				  $('#md_modal').load('index.php?v=d&plugin=Telejee&modal=Prog&id='+ _id);
+				  $('#md_modal').dialog('open');
+		   }); 		 
+	 	 }
+		 
+   });
+}
+   
+	function launchActionChaine(_id,_type) {
+		$.ajax({
+			type: 'POST',
+			url: 'plugins/Telejee/core/ajax/Telejee.ajax.php',
+			data: {
+				action: 'launchActionChaine',
+				id: _id,
+				type: _type
+				
+			},
+			dataType: 'json',
+			error: function (request, status, error) {
+				handleAjaxError(request, status, error);
+			},
+			success: function (data) {
+				
+				if (data.state != 'ok') {
+					$('#div_alert').showAlert({message: data.result, level: 'danger'});
+					return;
+				}
+	
+		   }
+	   });
+	}
+	</script>
+
+<style>
+
+.content {
+	margin-top:30px
+}
+#tabs {
+	border-radius:15px;
+
+}
+
+ul.tabs {
+	 margin:0px; 
+	 padding:0px;
+}
+
+#tabs ul li 
+{
+    display:inline-block;
+    float:left;
+    height:24px;
+    min-width:80px;
+    text-align:center;
+    line-height: 22px;
+    padding:0 8px 0 8px;
+    margin: 1px 0px 0px 0px;
+    border: 1px solid gray;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;	
+    background:#F0F0F0;
+}
+
+#affiche-contenu-1, #affiche-contenu-2, #affiche-contenu-3 {
+    border: 0px;
+    cursor: pointer;
+    font-variant: normal !important;
+    color: #97887B;
+    text-shadow: #97887B 0px 0px 6px;
+    font-size: 16px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-left: 6px;
+    letter-spacing: -1px;
+}
+ 
+
+.contenu
+{
+	display:none;
+}
+
+
+.heure {
+	color:#3068e3;
+	font-weight: bold;	
+	
+}
+
+.img_logo_content {
+	position:absolute;
+	left:280px
+}
+
+.img_logos_play {
+
+	margin-left:40px
+}
+
+
+th {
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+} 
+
+</style>

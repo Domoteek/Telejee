@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>Telejee</id>
+    <name>Telejee</name>
+    <description>Plugin pour récuperer le programme Tv du moment et de la soirée</description>
+    <icon>fa techno-tv</icon>
+    <licence>AGPL</licence>
+    <author>zyg0m4t1k</author>
+    <installation>Voir la doc ou la vidéo</installation>
+    <require>2.2</require>
+    <category>multimedia</category>
+</info>
+

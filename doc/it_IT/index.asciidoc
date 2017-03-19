@@ -1,0 +1,10 @@
+﻿== Telejee
+
+=== Présentation
+Ce plugin permet de récupérer le programme des chaînes TV de différents bouquets satellites et d'interagir avec votre domotique. Vous pouvez changez de chaine , lancer des scénes pour vous mettre dans des conditions optimales, etc..
+
+'''
+=== Installation/Configuration
+include::configuration.asciidoc[]
+
+'''
