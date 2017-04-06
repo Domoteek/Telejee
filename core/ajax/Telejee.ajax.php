@@ -55,7 +55,51 @@ try {
 	if (init('action') == 'chargePlug') {
         Telejee::chargePlug();     
         ajax::success();
+    }
+	
+	if (init('action') == 'addTelco') {
+	    Telejee::newTel(init('name'));
+        ajax::success();
     }	
+	
+	if (init('action') == 'LaunchAction') {
+		 log::add('Telejee','debug', 'ajax launch action');
+        Telejee::LaunchAction(init('id'),init('cmd'));
+		ajax::success();
+    } elseif (init('action') == 'getTelejee')  {
+		if (init('object_id') == '') {
+			$object = object::byId($_SESSION['user']->getOptions('defaultDashboardObject'));
+		} else {
+			$object = object::byId(init('object_id'));
+		}
+		if (!is_object($object)) {
+			$object = object::rootObject();
+		}
+		$return = array();
+		$return['eqLogics'] = array();
+		if (init('object_id') == '') {
+			foreach (object::all() as $object) {
+				foreach ($object->getEqLogic(true, false, 'Telejee') as $telejee) {
+					$return['eqLogics'][] = $telejee->toHtml(init('version'));
+				}
+			}
+		} else {
+			foreach ($object->getEqLogic(true, false, 'Telejee') as $telejee) {
+				$return['eqLogics'][] = $telejee->toHtml(init('version'));
+			}
+			foreach (object::buildTree($object) as $child) {
+				$telejees = $child->getEqLogic(true, false, 'Telejee');
+				if (count($telejees) > 0) {
+					foreach ($telejees as $telejee) {
+						$return['eqLogics'][] = $telejee->toHtml(init('version'));
+					}
+				}
+			}
+		}
+		ajax::success($return);
+			
+	}
+		
 	
 	 throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */

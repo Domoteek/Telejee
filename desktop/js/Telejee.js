@@ -15,7 +15,62 @@
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+$("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+
+$("body").delegate(".listCmdActionOn", 'click', function() {
+    var type = $(this).attr('data-type');
+    var el = $(this).closest('.' + type).find('.cmdAttr[data-l1key=configuration][data-l2key=action]');
+    jeedom.cmd.getSelectModal({cmd: {type: 'action'}}, function(result) {
+        el.value(result.human);
+    });
+});
+
+ $('body').undelegate('.icone .iconeOn[data-l1key=chooseIcon]', 'click').delegate('.icone .iconeOn[data-l1key=chooseIcon]', 'click', function () {
+    var mode = $(this).closest('.icone');
+    chooseIcon(function (_icon) {
+        mode.find('.iconeAttrOn[data-l2key=iconOn]').empty().append(_icon);
+    });
+});
+
+ $('body').undelegate('.icone .iconeAttrOn[data-l2key=iconOn]', 'click').delegate('.icone .iconeAttrOn[data-l2key=iconOn]', 'click', function () {
+    $(this).empty();
+});
+
+
+$( "#myselect option:selected" ).text()
+
+
 autoCompleteAction = ['sleep', 'variable', 'scenario', 'stop', 'icon', 'say','wait','return','gotodesign','log','message'];
+
+
+
+$('.eqLogicAction[data-action=addTel]').on('click', function () {
+    bootbox.prompt("{{Nom de la télécommande?}}", function (result) {
+        if (result !== null) {
+			$.ajax({// fonction permettant de faire de l'ajax
+				type: "POST", // methode de transmission des données au fichier php
+				url: "plugins/Telejee/core/ajax/Telejee.ajax.php", // url du fichier php
+				data: {
+					action: "addTelco",
+					name: result
+				},
+				dataType: 'json',
+				error: function(request, status, error) {
+					handleAjaxError(request, status, error);
+				},
+				success: function(data) { // si l'appel a bien fonctionné
+					if (data.state != 'ok') {
+						$('#div_alert').showAlert({message:  data.result,level: 'danger'});
+						return;
+					}
+					modifyWithoutSave=false;
+				   window.location.reload();
+				}
+			});			
+        }
+    });
+});
 
 
 $('.eqLogicAction[data-action=editIcon]').on('click', function () {
@@ -105,45 +160,92 @@ function chargePlug() {
 
 
 
-function printEqLogic(_eqLogic) {
+$( "#sel_telco" ).change(function() {
+		switch($( "#sel_telco option:selected" ).text()) {
+			case 'Universelle' :
+				$('#universelle').show();
+				$('#tv').hide();
+			break;
+			case 'TV' :
 
-	if (isset(_eqLogic.configuration) && _eqLogic.configuration.type != 'config') {
-		$('.true_visible').hide();
-		$('.category').hide();
-		$('.legend_action').show();
-		$('.widget-size').hide();
-		$('#div_action_logo').empty();
-		$('#div_action_play').empty();	
-		$('#div_action_search').empty();
-		$('.prog_visible').hide();
-		$('.object_prog').hide();
-		if (isset(_eqLogic.configuration.action_logo)) {
-            for (var i in _eqLogic.configuration.action_logo) {
-				//console.log(_eqLogic.configuration.action_alarm[i]);
-                addEventLogo(_eqLogic.configuration.action_logo[i], '{{Action}}');
-            }
-         }
-		  if (isset(_eqLogic.configuration.action_play)) {
-            for (var i in _eqLogic.configuration.action_play) {
-				//console.log(_eqLogic.configuration.action_alarm[i]);
-                addEventPlay(_eqLogic.configuration.action_play[i], '{{Action}}');
-            }
-         }
-		  if (isset(_eqLogic.configuration.action_search)) {
-            for (var i in _eqLogic.configuration.action_search) {
-				//console.log(_eqLogic.configuration.action_alarm[i]);
-                addEventSearch(_eqLogic.configuration.action_search[i], '{{Action}}');
-            }
-         }
-		 	   
-	} else {
-		$('.legend_action').hide();
-		$('.true_visible').show();
-		$('.widget-size').show();
-		$('.category').show();
-		$('.prog_visible').show();
-		$('.object_prog').show();
+				$('#universelle').hide();
+				$('#tv').show();			
+			break;			
+		}
+
+});
+
+
+
+$("#universelle button,#tv button").on('click', function(e) {
+	e.preventDefault();
+	$.ajax({
+		type: 'POST',
+		url: 'plugins/Telejee/core/ajax/Telejee.ajax.php',
+		data: {
+			action: 'LaunchAction',
+			id: $('#id_telejee').val(),
+			cmd: this.name
+		},
+		dataType: 'json',
+		error: function (request, status, error) {
+			handleAjaxError(request, status, error);
+		},
+		success: function (data) {
+			
+			if (data.state != 'ok') {
+				$('#div_alert').showAlert({message: data.result, level: 'danger'});
+				return;
+			}	
+				
+		}
+   });
+	
+});
+
+
+function printEqLogic(_eqLogic) {
+	$('.telco').hide();
+	$('.legend_action').hide();
+	$('.widget-size').hide();
+	$('#universelle').hide();
+	$('#tv').hide();
+	
+	if (!isset(_eqLogic)) {
+		var _eqLogic = {configuration: {}};
 	}
+	if (!isset(_eqLogic.configuration)) {
+	   _eqLogic.configuration = {};
+	}
+	
+	if (_eqLogic.configuration.type == 'config') {
+			$('.legend_action').hide();
+			$('.telco').hide();
+			$('.widget-size').show();
+			return;
+		}	
+	if (_eqLogic.configuration.type == 'telco') {
+		$('.telco').show();
+		$('.legend_action').hide();
+		$('.widget-size').hide();
+		switch($( "#sel_telco option:selected" ).text()) {
+			case 'Universelle' :
+				$('#universelle').show();
+				$('#tv').hide();
+			break;
+			case 'TV' :
+				$('#universelle').hide();
+				$('#tv').show();			
+			break;			
+		}
+		return;
+	} 
+	if (_eqLogic.configuration.type != 'telco' || _eqLogic.configuration.type != 'config') {
+		$('.telco').hide();
+		$('.legend_action').show();
+		$('.widget-size').hide();		
+	}
+
 }
 
 $("body").delegate(".listCmdAction", 'click', function() {
@@ -162,10 +264,13 @@ function saveEqLogic(_eqLogic) {
         _eqLogic.configuration = {};
     }
 	
+	
+	if (_eqLogic.configuration.type != 'telco') {
 	_eqLogic.configuration.action_logo = $('#div_action_logo .action_logo').getValues('.expressionAttr');
     _eqLogic.configuration.action_play = $('#div_action_play .action_play').getValues('.expressionAttr');
 	_eqLogic.configuration.action_search = $('#div_action_search .action_search').getValues('.expressionAttr');
 	return _eqLogic;
+	}
 }
 
 $("body").delegate('.bt_removeAction', 'click', function() {
@@ -339,10 +444,38 @@ function addEventPlay(_action, _name, _el) {
     }
 }
 
-function addCmdToTable() {
+function addCmdToTable(_cmd) {
 
-
+    if (!isset(_cmd)) {
+        var _cmd = {configuration: {}};
+    }
+    if (!isset(_cmd.configuration)) {
+        _cmd.configuration = {};
+    }
 	
+	if(_cmd.isVisible == 1) {
+		var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
+		tr += '<td>';
+		tr += '<span class="cmdAttr" data-l1key="id" style="display:none;"></span>';
+		tr += '<input class="cmdAttr form-control input-sm" data-l1key="name" style="width : 140px;" placeholder="{{Nom}}">';
+		tr += '</td>';
+		tr += '<td class="action">';
+		tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-type="' + _cmd.type + '" data-l2key="action"  style="margin-bottom : 5px;width : 80%; display : inline-block;">';
+		tr += '<a class="btn btn-default btn-sm cursor listCmdActionOn" data-type="' + _cmd.type + '" data-input="action" style="margin-left : 5px;"><i class="fa fa-list-alt "></i></a>';
+		tr += '</td>';	
+		
+		
+		tr += '<td>';
+		tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i>';
+		tr += '</td>';
+		tr += '</tr>';
+		$('#cmds tbody').append(tr);
+		$('#cmds tbody tr:last').setValues(_cmd, '.cmdAttr');
+		if (isset(_cmd.type)) {
+			$('#cmds tbody tr:last .cmdAttr[data-l1key=type]').value(init(_cmd.type));
+		}
+		jeedom.cmd.changeType($('#cmds tbody tr:last'), init(_cmd.subType));
+	}
 }
 
 

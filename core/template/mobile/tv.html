@@ -1,0 +1,244 @@
+<div id ="id_#id#" class="eqLogic eqLogic-widget allowResize allowReorderCmd " style="background-color: #background-color#;color: #color#;border:#border#;border-radius:#border-radius#;width:#width#;height: #height#;min-width:270px;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+		<div id="head"></div>
+		
+		<center class="widget-name"><strong><a href="#eqLink#" style="font-size : 1.1em;#hideEqLogicName#">#name_display# <span style="font-size: 0.85em;position: relative;top:-2px;">#object_name#</span></a></strong></center> 
+	
+    
+					<br/> 
+   					<div class="verticalAlign" style="text-align:center;" >
+                    		<button value="#id#"  name="poweroff" style="color:red;"  ><i class="fa  fa-power-off"></i></button>
+                            <button value="#id#"  name="menu" style="color:green;"  ><i class="fa  fa-bars"></i></button>
+                            <button value="#id#"  name="home" style="color:yellow;"  ><i class="fa  fa-home"></i></button>
+                            <button value="#id#"  name="source" style="color:#0099ff;" name="source" >hdmi</i></button> 
+                    </div>
+                    <br/>
+                    <div class="verticalAlign" style="text-align:center;">
+                            <button value="#id#"  name="un"   >1</button>
+                            <button value="#id#"   name="deux" >2</button>
+                            <button value="#id#"   name="trois" >3</button> 
+                    </div> 
+                    <div class="verticalAlign" style="text-align:center;">
+                            <button value="#id#"  name="quatre"   >4</button>
+                            <button value="#id#"   name="cinq" >5</button>
+                            <button value="#id#"  name="six" >6</button> 
+                    </div>  
+                    <div class="verticalAlign" style="text-align:center;">
+                            <button value="#id#"  name="sept"   >7</button>
+                            <button value="#id#"   name="huit" >8</button>
+                            <button value="#id#"   name="neuf" >9</button> 
+                    </div> 
+                    <div class="verticalAlign" style="text-align:center;">
+                            <button value="#id#"  name="zero"   >0</button>
+                    </div> 
+                    <br/> 
+                    <div class="verticalAlign" style="text-align:center;">
+                            <button value="#id#"  class="red" name="red"  style="background:#cc6666" ></button>
+                            <button value="#id#"  class="green"  name="green"  class="button_color" style="background:#99cc33" ></button>
+                            <button value="#id#"   class="yellow"  name="yellow" class="button_color" style="background:#ffcc33"></button> 
+                            <button value="#id#"  class="blue"  name="blue" class="button_color" style="background:#33ccff"></button> 
+                    </div> 
+                    <br/>
+                     <div class="verticalAlign" style="text-align:center;">
+                        <button value="#id#"  name="volume-up"  ><i class="fa  fa-volume-up"></i></button>
+                         <button value="#id#"  name="programme-up"  ><i class="fa  fa-chevron-up"></i></button>
+                        <button value="#id#"  name="play" style="color:#00cc99;"  ><i class="fa  fa-play"></i></button>
+                        <button value="#id#"  name="pause" ><i class="fa  fa-pause"></i></button>
+					</div>
+                    <div class="verticalAlign" style="text-align:center;">
+                    	 <button value="#id#"  name="volume-down"  ><i class="fa  fa-volume-down"></i></button> 
+                         <button value="#id#"  name="programme-down"   ><i class="fa  fa-chevron-down"></i></button>
+                         <button value="#id#"  name="forward" ><i class="fa  fa-forward"></i></button>
+                        <button value="#id#"  name="stop" ><i class="fa  fa-stop"></i></button>
+                                                      
+                    </div>
+                    <div class="verticalAlign" style="text-align:center;" >
+                    	
+                    	<button value="#id#"  name="volume-off"   ><i class="fa  fa-volume-off"></i></button>
+                        <button value="#id#"  name="info"  style="color:blue;" ><i class="fa  fa-info"></i></button>
+                        <button value="#id#"  name="backward" ><i class="fa  fa-backward"></i></button>
+                    	<button value="#id#"  name="registered"   style="color:red;" ><i class="fa  fa-registered"></i></button>
+                    </div> 
+       
+
+
+
+      
+</div>
+
+<script>
+
+$( document ).ready(function() {
+
+$('#id_#id# button').on('click', function() {
+	$.ajax({
+		type: 'POST',
+		url: 'plugins/Telejee/core/ajax/Telejee.ajax.php',
+		data: {
+			action: 'LaunchAction',
+			id: $(this).attr('value'),
+			cmd: this.name
+		},
+		dataType: 'json',
+		error: function (request, status, error) {
+			handleAjaxError(request, status, error);
+		},
+		success: function (data) {
+			
+			if (data.state != 'ok') {
+				$('#div_alert').showAlert({message: data.result, level: 'danger'});
+				return;
+			}			
+		}
+   });
+	
+});
+
+});
+
+
+
+
+</script>
+
+<style>
+#id_#id# {
+	border:solid;
+	border-style:solid;
+	border-color:#333;
+	border-radius:30px;
+	background-color:red;
+	padding-left:15px;
+}
+
+
+
+
+
+#id_#id# button {
+
+  color: #000;
+  background: #444;
+  background: linear-gradient( #555, #2C2C2C);	 	
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 2px;
+  padding:4px;
+  cursor: pointer;
+  border: 1px solid #bbb;
+  overflow: visible;
+  font: bold 13px arial, helvetica, sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: #ddd;
+  height:35px;
+  width:50px;
+  transition: background-color .2s ease-out;
+  background-clip: padding-box; 
+  border-radius: 5px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+				0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+  text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.2); 
+}
+
+#id_#id# button:hover{
+     color: #222;
+     background: #555;
+     background: linear-gradient( #777, #333);
+}
+
+#id_#id# button:active{
+     color: #000;
+     background: #444;
+     background: linear-gradient( #555, #2C2C2C);
+     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5) inset,
+				0px 2px 2px 0px rgba(255, 255, 255, 0.5);
+}
+
+
+#id_#id# .red {
+  background:#cc6666;
+
+}
+
+#id_#id# .green {
+background:#99cc33;
+
+}
+
+#id_#id# .yellow {
+  background:#ffcc33;
+
+  
+}
+
+#id_#id# .blue {
+  background:#3399ff;
+
+}
+
+
+
+
+
+/*#id_#id# button[name=chevron-up]:active,button[name=chevron-down]:active, button[name=plus]:active,button[name=minus]:active {
+     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5) inset,
+				0px 2px 2px 0px rgba(255, 255, 255, 0.5);
+}
+
+#id_#id# .programme , .sound , .play, .stop {
+  padding:0;
+  top:2px;
+  left:13px;
+  width:40px;
+  height:114px;
+  display:inline-block;
+	
+	
+}
+
+#id_#id# .programme , .sound {
+  color: #000;
+  background-color: #444;
+  background-color: linear-gradient( #555, #2C2C2C);	 	
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding:0;
+  top:2px;
+  left:13px;
+  width:40px;
+  height:114px;
+  display:inline-block;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+				0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+  text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.2); 		
+}
+
+
+#id_#id# .sound {
+	margin-left:20px;
+}
+
+#id_#id# .stop {
+	margin-left:16px;
+
+}
+
+#id_#id# .programme {
+	margin-left:14px;
+}
+
+#id_#id# .play{
+	margin-left:12px;
+}
+
+#id_#id# button[name=programme],button[name=chevron-up],button[name=chevron-down],button[name=plus],button[name=volume],button[name=minus] {
+	background:transparent;
+	border:none !important;
+	font-weight:bold ;
+}*/
+
+</style>
+
+
+
