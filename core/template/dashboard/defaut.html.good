@@ -1,0 +1,190 @@
+<div id ="id_#id#" class="eqLogic eqLogic-widget allowResize allowReorderCmd " style="background-color: #background-color#;color: #color#;border:#border#;border-radius:#border-radius#;width: #width#;height: #height#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+		<center class="widget-name"><strong><a href="#eqLink#" style="font-size : 1.1em;#hideEqLogicName#">#name_display# <span style="font-size: 0.85em;position: relative;top:-2px;">#object_name#</span></a></strong></center> 
+	
+    
+	<br />
+    
+    <div class="verticalAlign">
+    	<center>
+			<button value="#id#" name="poweroff" style="color:red;" class="button_#id#"><i class="fa  fa-power-off"></i></button>
+            <button style="color:#0099ff;" value="#id#" name="television" class="button_#id#"><i class="fa  fa-television"></i></button>
+            <button style="color:#0099ff;" value="#id#" name="video" class="button_#id#"><i class="fa  fa-video-camera"></i></button>
+        </center>
+    </div>
+  	<div class="verticalAlign">
+    	<center>
+			<button value="#id#" name="un" class="button_#id#">1</button>
+            <button value="#id#" name="deux" class="button_#id#">2</button>
+            <button value="#id#" name="trois" class="button_#id#">3</button>
+        </center>
+    </div>
+  	<div class="verticalAlign">
+    	<center>
+			<button value="#id#" name="quatre" class="button_#id#">4</button>
+            <button value="#id#" name="cinq" class="button_#id#">5</button>
+            <button value="#id#" name="six" class="button_#id#">6</button>
+        </center>
+    </div>    
+  	<div class="verticalAlign">
+    	<center>
+			<button value="#id#" name="sept" class="button_#id#">7</button>
+            <button value="#id#" name="huit" class="button_#id#">8</button>
+            <button value="#id#" name="neuf" class="button_#id#">9</button>
+        </center>
+    </div>  
+  	<div class="verticalAlign">
+    	<center>
+			<button style="color:#0099ff;" value="#id#" name="volume-up" class="button_#id#"><i class="fa  fa-volume-up"></i></button>
+            <button value="#id#" name="zero" class="button_#id#">0</button>
+            <button style="color:#0099ff;" value="#id#" name="ch+" class="button_#id#">CH+</button>
+        </center>
+    </div> 
+  	<div class="verticalAlign">
+    	<center>
+			<button style="color:#0099ff;" value="#id#" name="volume-down" class="button_#id#"><i class="fa  fa-volume-down"></i></button>
+            <button style="color:#3399ff;" value="#id#" name="volume-off" class="button_#id#"><i class="fa  fa-volume-off"></i></button>
+            <button style="color:#0099ff;" value="#id#" name="ch-" class="button_#id#">CH-</button>
+        </center>
+    </div>      
+  	<div class="verticalAlign">
+    	<center>
+			<button value="#id#" name="menu" class="button_#id#">menu</button>
+            <button value="#id#" name="up" class="button_#id#"><i class="fa  fa-arrow-up"></i></button>
+            <button value="#id#" name="info" class="button_#id#">info</button>
+        </center>
+    </div>  
+  	<div class="verticalAlign">
+    	<center>
+			<button value="#id#" name="left" class="button_#id#"><i class="fa  fa-arrow-left"></i></button>
+            <button value="#id#" name="share" class="button_#id#"><i class="fa  fa-share"></i></button>
+            <button value="#id#" name="right" class="button_#id#"><i class="fa  fa-arrow-right"></i></button>
+        </center>
+    </div> 
+  	<div class="verticalAlign">
+    	<center>
+			<button value="#id#" name="exit" class="button_#id#">exit</button>
+            <button value="#id#" name="down" class="button_#id#"><i class="fa  fa-arrow-down"></i></button>
+            <button value="#id#" name="return" class="button_#id#">return</button>
+        </center>
+    </div>  
+  	<div class="verticalAlign">
+    	<center>
+			<button value="#id#" name="backward" class="button_#id#"><i class="fa  fa-backward"></i></button>
+            <button value="#id#" name="pause" class="button_#id#"><i class="fa  fa-pause"></i></button>
+            <button value="#id#" name="forward" class="button_#id#"><i class="fa  fa-forward"></i></button>
+        </center>
+    </div>  
+  	<div class="verticalAlign">
+    	<center>
+			<button style="color:red;" value="#id#" name="registered" class="button_#id#"><i class="fa  fa-registered"></i></button>
+            <button style="color:#00cc99;" value="#id#" name="play" class="button_#id#"><i class="fa  fa-play"></i></button>
+            <button value="#id#" name="stop" class="button_#id#"><i class="fa  fa-stop"></i></button>
+        </center>
+    </div>  
+
+
+
+      
+</div>
+
+<script>
+
+$('.button_#id#').on('click', function() {
+	$.ajax({
+		type: 'POST',
+		url: 'plugins/Telejee/core/ajax/Telejee.ajax.php',
+		data: {
+			action: 'LaunchAction',
+			id: $(this).attr('value'),
+			cmd: this.name
+		},
+		dataType: 'json',
+		error: function (request, status, error) {
+			handleAjaxError(request, status, error);
+		},
+		success: function (data) {
+			
+			if (data.state != 'ok') {
+				$('#div_alert').showAlert({message: data.result, level: 'danger'});
+				return;
+			}			
+		}
+   });
+	
+});
+
+
+
+
+</script>
+
+<style>
+
+
+#id_#id# {
+	box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+
+}
+
+#id_#id#:before, .effect8:after
+{
+	content:"";
+    position:absolute; 
+    z-index:-1;
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+    top:10px;
+    bottom:10px;
+    left:0;
+    right:0;
+    border-radius:100px / 10px;
+} 
+
+#id_#id#:after
+{
+    right:10px; 
+    left:auto; 
+    transform:skew(8deg) rotate(3deg);
+}
+
+.button_#id#{
+
+  color: #000;
+  background: #444;
+  background: linear-gradient( #555, #2C2C2C);	 	
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 2px;
+  cursor: pointer;
+  border: 1px solid #bbb;
+  overflow: visible;
+  font: bold 13px arial, helvetica, sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: #ddd;
+  height:35px;
+  width:55px;
+  transition: background-color .2s ease-out;
+  background-clip: padding-box; /* Fix bleeding */
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba( 0, 0, 0, 0.5),
+                 0 -1px 0 rgba( 255, 255, 255, 0.4);
+  text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.2); 
+}
+
+.button_#id#:hover{
+     color: #222;
+     background: #555;
+     background: linear-gradient( #777, #333);
+}
+
+.button_#id#:active{
+     color: #000;
+     background: #444;
+     background: linear-gradient( #555, #2C2C2C);
+     box-shadow: 1px 1px 10px black inset, 
+                 0 1px 0 rgba( 255, 255, 255, 0.4);
+}
+
+
+</style>

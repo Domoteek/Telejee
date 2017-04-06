@@ -22,13 +22,31 @@ require_once dirname(__FILE__) . '/../../3rdparty/conversion.php';
 
 class Telejee extends eqLogic {
     /*     * *************************Attributs****************************** */
+	
+	
 
 	public static $_widgetPossibility = array('custom' => true);
 
     /*     * ***********************Methode static*************************** */
-	 public static function pull($_options) {
+	
+	public static function LaunchAction($id,$cmd) {
 
-	 }
+		$eqLogic = eqLogic::byId($id);
+		$cmd= $eqLogic->getCmd(null,$cmd);
+		if (!is_object($cmd)) {
+			return;
+		}
+		$actions = $cmd->getConfiguration('action');
+		$cmds = str_replace('#', '', $actions);
+		if ($cmds != "") {
+			$cmd = cmd::byId($cmds);
+			if (is_object($cmd)) {
+				$cmd->execCmd();
+			}
+		}	
+	}
+
+
 	
     /*     * *********************Methode d'instance************************* */
     public function getChainesconfig() {
@@ -46,9 +64,7 @@ class Telejee extends eqLogic {
 	
 	 public static function update_data() {
 		 if (config::byKey('choix_icon', 'Telejee') != '') {
-			 log::add('Telejee','info', 'update pas besoin');
 			 return false;
-			 
 		 }
 			
 		 foreach (Telejee::byType('Telejee') as $Telejee) {
@@ -70,6 +86,11 @@ class Telejee extends eqLogic {
 		  }
 
 	 }
+	 
+	 
+
+	
+		 
 	 public static function editIconTele() {
 		 	switch(config::byKey('choix_icon', 'Telejee')) {
 			   case 1: $icon_tv = "Simple"; break;
@@ -186,6 +207,7 @@ class Telejee extends eqLogic {
 		  
 		  return $results;
 	}
+	
 	 public function getResume($id) {
 		$results = array();
         $data = file_get_contents('http://www.programme-tv.net/'.$id);
@@ -240,56 +262,6 @@ class Telejee extends eqLogic {
 	 }		
 	
 
-	
-	 public function postSave() {
-       $etat = $this->getIsEnable();
-	   $id = $this->getId()+25;
-		if ($etat == 0) {
-			foreach (Telejee::byType('Telejee') as $Telejee) {
-				if ($Telejee->getId() == $id) {
-					$Telejee->setIsEnable(0);
-					$Telejee->save();
-				}
-			}
-		} else {
-			foreach (Telejee::byType('Telejee') as $Telejee) {
-				if ($Telejee->getId() == $id) {
-					$Telejee->setIsEnable(1);
-					$Telejee->save();
-					
-				}
-			}		  
-		}
-	 }
-
-   
-   public function chargePlug() {
- 
-		$eqLogics = eqLogic::byType('Telejee');
-		
-	    foreach($eqLogics as $eqLogic) {
-            $eqLogic->remove();
-		};
-		
-			$eqLogic = new eqLogic();
-			$eqLogic->setEqType_name('Telejee');
-			$eqLogic->setIsEnable(1);
-			$eqLogic->setIsVisible(1);
-			$eqLogic->setName('Configuration');
-			$eqLogic->setConfiguration('type', 'config');
-			$eqLogic->setConfiguration('logo', 'plugins/Telejee/desktop/img/icones/defaut.png');
-			$eqLogic->save();
-	}
-	
-    public function preRemove() {
-		if ($this->getConfiguration('tag') == 'nom'.$this->getName()) {
-			$chaines_remove  = Telejee::byTypeAndSearhConfiguration( 'Telejee', 'nomoment'.$this->getName());
-				foreach($chaines_remove as $chaine) {
-					$chaine->remove();
-				}
-		}
-	}
-		
    public function progToTheNight() {
 			switch(config::byKey('choix_op', 'Telejee')) {
 			   case 0: $url = "http://www.programme-tv.net/programme/programme-tnt.html"; break;
@@ -453,14 +425,14 @@ class Telejee extends eqLogic {
 
 								 
 							  $titre = $xpath->query('.//a[@class="prog_name c-red-hover c-red fw-700 fs-3"]')->item(0)->nodeValue;
-							  log::add('Telejee', 'debug', 'titre: '. $titre);
+							 // log::add('Telejee', 'debug', 'titre: '. $titre);
 								 
 
 							  $lien =  $xpath->query('.//a[@class="prog_name c-red-hover c-red fw-700 fs-3"]/@href')->item(0)->nodeValue ;
-							  log::add('Telejee', 'debug', 'lien: '. $lien);							
+							 // log::add('Telejee', 'debug', 'lien: '. $lien);							
 
 							  $image =  $xpath->query('.//img/@data-src')->item(1)->nodeValue;
-							  log::add('Telejee', 'debug', 'image: '. $image);
+							 // log::add('Telejee', 'debug', 'image: '. $image);
 							  $Telejee[0]->setConfiguration('titre', $titre);
 							  $Telejee[0]->setConfiguration('heure', $heure);
 							  $Telejee[0]->setConfiguration('image', $image);
@@ -472,7 +444,7 @@ class Telejee extends eqLogic {
 										 foreach ($datas as $data) {
 											if (strstr(strtolower($titre),strtolower($data))) {
 												if ($Telejee[0]->getConfiguration('exec_event') == '' || time()-$Telejee[0]->getConfiguration('exec_event')>1800) {
-													log::add('Telejee', 'info', 'recherche ok mais temps suprieure a 1h');
+														log::add('Telejee', 'debug', 'recherche ok mais temps suprieure a 1h');
 													foreach ($events as $event) {
 														try {
 															scenarioExpression::createAndExec('action', $event['cmd'], $event['options']);
@@ -484,7 +456,7 @@ class Telejee extends eqLogic {
 													$Telejee[0]->save();
 													break;
 												} else {
-													log::add('Telejee', 'info', 'recherche ok mais temps inferieure a 1h' . $titre);
+													log::add('Telejee', 'debug', 'recherche ok mais temps inferieure a 1h' . $titre);
 												}
 															
 											}
@@ -496,9 +468,158 @@ class Telejee extends eqLogic {
 		 }
 	}
 	
+
+	public function newTel($name) {
+		$eqLogic = eqLogic::byLogicalId($name);
+		if (is_object($eqLogic)) {
+			//erreur
+		} else  {
+		$eqLogic = new eqLogic();
+		$eqLogic->setEqType_name('Telejee');
+		$eqLogic->setIsEnable(1);
+		$eqLogic->setName($name);
+		$eqLogic->setLogicalId($name);
+		$eqLogic->setConfiguration('type', 'telco');
+		$eqLogic->setConfiguration('telco_type', 'Universelle');
+		$eqLogic->setIsVisible(1);
+		$eqLogic->setIsEnable(1);			
+		$eqLogic->save();
+		}
+	}
+
+	public static function  AddCmd($cmds,$logical,$eqLogic) {
+		foreach( $cmds as $index => $cmd ) {
+			$commande = $eqLogic->getCmd(null,$logical[$index]);
+				if (!is_object($commande))
+				{
+					$commande = new telejeeCmd();
+					$commande->setName($cmd);
+					$commande->setEqLogic_id($eqLogic->id);
+				}
+
+					$commande->setLogicalId($logical[$index]);
+					$commande->setIsVisible(1);
+					$commande->setType('action');
+					$commande->setSubType('other');
+					$commande->save();	
+		}
+	}
 	
+	public function preSave() {
+		if ($this->getConfiguration('type') == 'telco') {
+			$cmds = $this->getCmd();
+			foreach ($cmds as $cmd) {
+				if (is_object($cmd)) {
+					$cmd->setIsVisible(0);
+					$cmd->save();						
+				}
+				
+			}
+		}
+	 }
+	 
+	 
+	 public function postUpdate() {
+
+		 
+		if ($this->getConfiguration('type') == 'telco') {
+			
+			if ($this->getConfiguration('telco_type') == 'Universelle') {
+				$cmd = array('poweroff','television','video','1','2','3','4','5','6','7','8','9','0','menu','up','info','left','share','right','exit','down','return','volume-up','volume-down','volume-off','ch+','ch-','backward','forward','play','stop','registered','pause');
+			$logical = array('poweroff','television','video','un','deux','trois','quatre','cing','six','sept','huit','neuf','zero','menu','up','info','left','share','right','exit','down','return','volume-up','volume-down','volume-off','ch+','ch-','backward','forward','play','stop','registered','pause');				
+				self::AddCmd($cmd,$logical,$this);
+			}
+			
+			if ($this->getConfiguration('telco_type') == 'TV') {
+				$cmd = array('poweroff','menu','home','source','1','2','3','4','5','6','7','8','9','0','red','green','yellow','blue','info','volume-up','volume-down','volume-off','programme-up','programme-down','backward','forward','play','stop','registered','pause');
+				$logical = array('poweroff','menu','home','source','un','deux','trois','quatre','cing','six','sept','huit','neuf','zero','red','green','yellow','blue','info','volume-up','volume-down','volume-off','programme-up','programme-down','backward','forward','play','stop','registered','pause');
+
+				self::AddCmd($cmd,$logical,$this);
+			}			
+		
+		
+		
+		} else {
+		   $etat = $this->getIsEnable();
+		   $id = $this->getId()+25;
+			if ($etat == 0) {
+				foreach (Telejee::byType('Telejee') as $Telejee) {
+					if ($Telejee->getId() == $id) {
+						$Telejee->setIsEnable(0);
+						$Telejee->save();
+					}
+				}
+			} else {
+				foreach (Telejee::byType('Telejee') as $Telejee) {
+					if ($Telejee->getId() == $id) {
+						$Telejee->setIsEnable(1);
+						$Telejee->save();
+					}
+				}		  
+			}
+		}
+	 }
+
+   
+   public function chargePlug() {
+ 
+		$eqLogics = eqLogic::byType('Telejee');
+		
+	    foreach($eqLogics as $eqLogic) {
+			if ($eqLogic->getConfiguration('type') != 'telco') {
+            $eqLogic->remove();
+			}
+		};
+		
+			$eqLogic = new eqLogic();
+			$eqLogic->setEqType_name('Telejee');
+			$eqLogic->setIsEnable(1);
+			$eqLogic->setIsVisible(1);
+			$eqLogic->setName('Configuration');
+			$eqLogic->setConfiguration('type', 'config');
+			$eqLogic->setConfiguration('logo', 'plugins/Telejee/desktop/img/icones/defaut.png');
+			$eqLogic->save();
+	}
+	
+    public function preRemove() {
+		if ($this->getConfiguration('tag') == 'nom'.$this->getName()) {
+			$chaines_remove  = Telejee::byTypeAndSearhConfiguration( 'Telejee', 'nomoment'.$this->getName());
+				foreach($chaines_remove as $chaine) {
+					$chaine->remove();
+				}
+		}
+	}
+
+
 	
 	public function toHtml($_version = 'dashboard') {
+		if ($this->getConfiguration('type') == 'telco') { 
+			if ($this->getConfiguration('telco_type') == 'Universelle') { 
+		
+			$replace = $this->preToHtml($_version);
+			if (!is_array($replace)) {
+				return $replace;
+			}
+			
+			$version = jeedom::versionAlias($_version);
+			
+			return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'defaut', 'Telejee')));
+			}
+			if ($this->getConfiguration('telco_type') == 'TV') { 
+		
+			$replace = $this->preToHtml($_version);
+			if (!is_array($replace)) {
+				return $replace;
+			}
+			
+			$version = jeedom::versionAlias($_version);
+			
+			return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'tv', 'Telejee')));
+			}			
+		
+		
+		} else {
+			
 		$replace = $this->preToHtml($_version);
 		if (!is_array($replace)) {
 			return $replace;
@@ -515,6 +636,7 @@ class Telejee extends eqLogic {
 		$html = template_replace($replace, getTemplate('core', $_version, 'prog', 'Telejee'));
 		cache::set('TelejeeWidget' . $_version . $this->getId(), $html, 0);
 		return $html;
+		}
 
 	} 
 }

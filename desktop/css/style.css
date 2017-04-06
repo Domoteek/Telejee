@@ -1,0 +1,143 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/* debut Universelle */
+
+#universelle {
+	width:280px;
+	background-color:rgba(0, 0, 0, 0.72);	
+	border:solid;
+	border-style:solid;
+	border-color:#333;
+	border-radius:30px;
+	padding-left:15px;
+}
+
+
+#universelle button{
+
+  color: #000;
+  background: #444;
+  background: linear-gradient( #555, #2C2C2C);	 	
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 2px;
+  padding:4px;
+  cursor: pointer;
+  border: 1px solid #bbb;
+  overflow: visible;
+  font: bold 13px arial, helvetica, sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: #ddd;
+  height:35px;
+  width:55px;
+  transition: background-color .2s ease-out;
+  background-clip: padding-box; /* Fix bleeding */
+  border-radius: 5px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+				0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+  text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.2); 
+}
+
+#universelle button:hover{
+     color: #222;
+     background: #555;
+     background: linear-gradient( #777, #333);
+}
+
+#universelle button:active{
+     color: #000;
+     background: #444;
+     background: linear-gradient( #555, #2C2C2C);
+     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5) inset,
+				0px 2px 2px 0px rgba(255, 255, 255, 0.5);
+}
+
+/* fin Universelle */
+
+/* debut TV */
+
+
+
+#tv {
+	width:320px;
+	border:solid;
+	border-style:solid;
+	border-color:#333;
+	border-radius:30px;
+	background-color:rgba(0, 0, 0, 0.72);
+	padding-left:15px;
+}
+
+
+
+
+
+#tv button {
+
+  color: #000;
+  background: #444;
+  background: linear-gradient( #555, #2C2C2C);	 	
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 2px;
+  padding:4px;
+  cursor: pointer;
+  border: 1px solid #bbb;
+  overflow: visible;
+  font: bold 13px arial, helvetica, sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: #ddd;
+  height:35px;
+  width:50px;
+  transition: background-color .2s ease-out;
+  background-clip: padding-box; 
+  border-radius: 5px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+				0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+  text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.2); 
+}
+
+#tv button:hover{
+     color: #222;
+     background: #555;
+     background: linear-gradient( #777, #333);
+}
+
+#id_#id# button:active{
+     color: #000;
+     background: #444;
+     background: linear-gradient( #555, #2C2C2C);
+     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5) inset,
+				0px 2px 2px 0px rgba(255, 255, 255, 0.5);
+}
+
+
+#tv .red {
+  background:#cc6666;
+
+}
+
+#tv .green {
+background:#99cc33;
+
+}
+
+#tv .yellow {
+  background:#ffcc33;
+
+  
+}
+
+#tv#.blue {
+  background:#3399ff;
+
+}
+
+
+

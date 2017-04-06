@@ -1,38 +1,61 @@
 ﻿Pour plus d'information vous pouvez regarder une vidéo de présentation
 
-* https://www.youtube.com/watch?v=UTECRBGEUtI[Voir la vidéo]
+
 
 * Télécharger le Plugin Telejee sur le market.
 
-image::../images/Telejee_icon.png[align="center"]
+image::../images/telejee_icon.png[align="center"]
 
-* Activer le.Puis choissisez votre bouquet et le type d'icônes
+* Activer le.Puis choissisez votre bouquet et le type d'icônes et fuseau horaire si besoin
 
-image::../images/telejee1.png[align="center"]
+image::../images/tel0.png[align="center"]
 
 
 * Puis aller dans Plugins/Multimedia/Telejee
 
 image::../images/telejee3.png[align="center"]
 
-* Cliquer sur "charger le plugin". Cela créer un seul équipement et c'est celui-ci que vous devez configurer pour que le widget soit visible sur le dashboard. 
+=== Pour créer des chaînes
 
-image::../images/telejee4.png[align="center"]
+[IMPORTANT]
+*Il faut impérativement Cliquer sur "Activer les chaines" avant d'ajouter des chaînes. Cela créer un seul équipement et c'est celui-ci que vous devez configurer pour que le widget soit visible sur le dashboard. 
 
-* Ensuite ajouter les chaînes que vous souhaitez en cliquant sur "ajouter des chaînes".Faites une par une si vous voulez un ordre précis.
+image::../images/tel01.png[align="center"]
+
+* Une icone de réglage est apparue image:reglage.png[] En cliquant dessus vous vous retrouver sur la configuration de l'équipement. C'est ici que vous configurez l'objet pour voir le widget
+
+image::../images/tel2.png[align="center"]
+
+En cliquant sur l'onglet Commandes , vous pouvez définir la taille du widget et recharger les icônes si vous changez de pack
+
+image::../images/tel3.png[align="center"]
+
+* Ensuite ajouter les chaînes que vous souhaitez en cliquant sur  image:tel4.png[] .Faites une par une si vous voulez un ordre précis.
 
 image::../images/telejee2.png[align="center"]
+
+Pour avoir quelque chose du style
+
+image::../images/tel5.png[align="center"]
+
+
+* Vous pouvez  définir des actions qui se déclencheront lorsqu'un clic est effectué sur un logo de chaine OU sur la petite icône "play".
+
+* Pour cela cliquer  sur une icône de chaîne dans les commandes
+
+image::../images/telejee5.png[align="center"]
+
+[NOTE]
+Pour les scénarios , commencer juste à écrire "scénario" dans la zone d'action
+
+
+* Vous pouvez ajouter autant d'actions que vous le souhaitez
 
 
 * Ensuite vous devriez avoir un widget dans ce style sur le dashboard.Vous pouvez ajouter autant d'actions que vous voulez et gérer les scénarios.
 
 image::../images/tv6.png[align="center"]
 
-* Ensuite vous pouvez  définir des actions qui se déclencheront lorsqu'un clic est effectué sur un logo de chaine OU sur la petite icône "play".
-
-* Pour cela cliquer  sur *ajouter Action*+
-
-image::../images/telejee5.png[align="center"]
 
 * Ensuite les actions définies peuvent être éxécutées sur le widget en cliquant sur l'icône de la chaîne ou l'icône "play"
 
@@ -48,7 +71,37 @@ image::../images/telejee7.png[align="center"]
 
 Pour plus d'information vous pouvez regarder une vidéo de présentation
 
-* https://www.youtube.com/watch?v=UTECRBGEUtI[Voir la vidéo]
+
+=== Pour créer des télécommandes
+
+* Cliquer sur sur  image:tel11.png[] et nommer votre télécommande
+
+* Dans l'équipement vous pourrez choisir une télécommande 
+
+L'universelle 
+
+image:tel12.png[align="center"]
+
+ou la TV 
+
+image:tel14.png[align="center"] 
+
+* Aller dans les commandes de l'équipement
+
+image:tel9.png[align="center"] 
+
+Vous pouvez choisir une action à éxécuter pour chaque touche en cliquant sur le  image:tel15.png[] 
+
+
+[NOTE]
+Vous pouvez créer autant de télécommande que vous le souhaitez.
+Toutes les vues sont OK
+
+
+
+
+
+
 
 
 

@@ -65,6 +65,7 @@ function Telejee_update() {
     }
 	$cron->stop();	
 	Telejee::update_data();
+	log::add('Telejee', 'error', '!!!Bien lire le changelog et surtout la doc');
 
 }
 
