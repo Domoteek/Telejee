@@ -95,7 +95,7 @@ Vous pouvez choisir une action à éxécuter pour chaque touche en cliquant sur 
 
 [NOTE]
 Vous pouvez créer autant de télécommande que vous le souhaitez.
-Toutes les vues sont OK
+Toutes les vues sont OK . Utilsation de la configuration avancée
 
 
 

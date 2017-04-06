@@ -179,7 +179,6 @@ $( "#sel_telco" ).change(function() {
 
 $("#universelle button,#tv button").on('click', function(e) {
 	e.preventDefault();
-	//alert($('#id_telejee').val())
 	$.ajax({
 		type: 'POST',
 		url: 'plugins/Telejee/core/ajax/Telejee.ajax.php',
