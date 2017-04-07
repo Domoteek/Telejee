@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+.gitignore
+=======
+!.gitignore
+>>>>>>> 288b8002a9d8fe5e151f461015cac5379a5619f6
+mobile/html/test.html
+.good
