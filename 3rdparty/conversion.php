@@ -1,7 +1,7 @@
 <?php
 function string_conversion($string)
 {
-$caractere = array(">", "<",  ":", "*", "/", "|", "?", '"', '<', '>', "'");
+$caractere = array(">", "<",  ":", "*", "/", "|", "?", '"', '<', '>', "'","&");
 $string = str_replace($caractere, "", $string);
 $string = mb_strtolower($string, 'UTF-8');
 $string = str_replace(
@@ -11,7 +11,7 @@ array(
 'ô', 'ö', 'ò', 'ó', 'õ', 'ø',
 'ù', 'û', 'ü', 'ú',
 'é', 'è', 'ê', 'ë',
-'ç', 'ÿ', 'ñ',
+'ç', 'ÿ', 'ñ','  '
 ),
 array(
 'a', 'a', 'a', 'a', 'a', 'a',
@@ -19,12 +19,10 @@ array(
 'o', 'o', 'o', 'o', 'o', 'o',
 'u', 'u', 'u', 'u',
 'e', 'e', 'e', 'e',
-'c', 'y', 'n',
+'c', 'y', 'n',' '
 ),
 $string
 );
-
 return $string;
 }
-
 ?>
