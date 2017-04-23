@@ -1,4 +1,3 @@
-
 /* This file is part of Jeedom.
 *
 * Jeedom is free software: you can redistribute it and/or modify
@@ -92,17 +91,17 @@ $('.eqLogicAction[data-action=chargePlug]').on('click', function () {
 
 
 $('#addEventLogo').on('click', function() {
-    addEventLogo({}, '{{Action}}');
+    addEventLogo({}, 'action_logo', '{{Action}}');
 	setAutocomplete();
 });
 
 $('#addEventPlay').on('click', function() {
-    addEventPlay({}, '{{Action}}');
+     addEventPlay({}, 'action_play', '{{Action}}');
 	setAutocomplete();
 });
 
 $('#addEventSearch').on('click', function() {
-    addEventSearch({}, '{{Action}}');
+    addEventSearch({}, 'action_search', '{{Action}}');
 });
 
 
@@ -210,6 +209,9 @@ function printEqLogic(_eqLogic) {
 	$('.widget-size').hide();
 	$('#universelle').hide();
 	$('#tv').hide();
+    $('#div_action_logo').empty();
+    $('#div_action_play').empty();
+	$('#div_action_present').empty();		
 	
 	if (!isset(_eqLogic)) {
 		var _eqLogic = {configuration: {}};
@@ -245,7 +247,19 @@ function printEqLogic(_eqLogic) {
 		$('.legend_action').show();
 		$('.widget-size').hide();		
 	}
+    if (isset(_eqLogic.configuration)) {
+        if (isset(_eqLogic.configuration.action_logo)) {
+            for (var i in _eqLogic.configuration.action_logo) {
+                addEventLogo(_eqLogic.configuration.action_logo[i], 'action_logo', '{{Action}}');
+            }
+        }
+		if (isset(_eqLogic.configuration.action_play)) {
+            for (var i in _eqLogic.configuration.action_play) {
+                addEventPlay(_eqLogic.configuration.action_play[i], 'action_play', '{{Action}}');
+            }
+        }
 
+	}
 }
 
 $("body").delegate(".listCmdAction", 'click', function() {
@@ -258,6 +272,7 @@ $("body").delegate(".listCmdAction", 'click', function() {
         });
     });
 });
+
 
 function saveEqLogic(_eqLogic) {
     if (!isset(_eqLogic.configuration)) {
@@ -323,7 +338,7 @@ $('body').delegate('.action_play .expressionAttr[data-l1key=cmd]', 'focusout', f
 
 
 
-function addEventLogo(_action, _name, _el) {
+function addEventLogo(_action, _type, _name, _el) {
 	if (!isset(_action)) {
         _action = {};
     }
@@ -409,7 +424,7 @@ function addChaine() {
 
 }
 
-function addEventPlay(_action, _name, _el) {
+function addEventPlay(_action, _type, _name, _el) {
 	if (!isset(_action)) {
         _action = {};
     }
@@ -477,5 +492,3 @@ function addCmdToTable(_cmd) {
 		jeedom.cmd.changeType($('#cmds tbody tr:last'), init(_cmd.subType));
 	}
 }
-
-
