@@ -2,25 +2,23 @@
 if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
-
 sendVarToJS('eqType', 'Telejee');
 $eqLogics = eqLogic::byType('Telejee');
-$eqLogicsSorted['telco'] = array();
-$eqLogicsSorted['chaines'] = array();
-
+$eqLogicsSorted['Telecommandes'] = array();
+$eqLogicsSorted['Chaines'] = array();
 foreach ($eqLogics as $eqLogic) {
 	
 	if ($eqLogic->getConfiguration('type') == 'telco') {
-		array_push($eqLogicsSorted['telco'], $eqLogic);
-	} else {
-		array_push($eqLogicsSorted['chaines'], $eqLogic);
+		array_push($eqLogicsSorted['Telecommandes'], $eqLogic);
+	} elseif($eqLogic->getConfiguration('type') == 'soir' || $eqLogic->getConfiguration('type') == 'config') {
+		array_push($eqLogicsSorted['Chaines'], $eqLogic);
 	}
 }
-
-
-
-
-
+function cmp($a, $b)
+{
+	return strcmp($a->getId(), $b->getId());
+}
+usort($eqLogicsSorted['Chaines'], "cmp");
 ?>
 
 <div class="row row-overflow">
@@ -72,52 +70,47 @@ foreach ($eqLogics as $eqLogic) {
             
 		</div>  
         
-        <div class="eqLogicThumbnailContainer" >
+
       
 					<?php
 					
 					foreach ($eqLogicsSorted as $state => $eqLogicList) {
-						if ($state == 'telco') {
-							echo "<legend>{{Mes télécommandes}}</legend>";
-							foreach ($eqLogicList as $type) {
-
-							echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $type->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px; " >';
-							echo "<center>";
-							echo '<img src="plugins/Telejee/doc/images/telejee_icon.png" height="105" width="95" />';
-							echo "</center>";
-							echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;" ><center>' . $type->getHumanName(true, true) . '</center></span>';
-							echo '</div>';								
-								
-							}
-						} else {
-							echo "<legend>{{Mes chaines}}</legend>";
-							$chaines = Telejee::getChainesconfig();
-							function cmp($a, $b)
-							{
-								return strcmp($a["id"], $b["id"]);
-							}
-							
-							usort($chaines, "cmp");
+					if (count($eqLogicList) == 0) {
+						echo "<legend>{{" .$state . "}}</legend>";
+						echo "<span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore d'équipements type " . $state . "}}</span>";
+					} else {						
+						
 							echo '<div class="eqLogicThumbnailContainer">';
-							$i =1;
-							while (list($key, $value) = each($chaines)) {
-								$Telejee = Telejee::byId($value["id"]);
-								echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $Telejee->getId() . '" style="/*border:1px solid lightgray;*/ background-color : #ffffff; height : 100px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 100px;margin-left : 10px;" >';
-								echo "<center>";
-								echo '<img src="' . $Telejee->getConfiguration('logo') . '" height="50" width="50" />';
-								echo "</center>";
-								//echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;"><center>' . $Telejee->getHumanName(true) . '</center></span>';
-								echo '</div>';
-								$i++;
+							echo "<legend>{{" .$state . "}}</legend>";
+							foreach ($eqLogicList as $equipement) {
+							$opacity = '';
+								if ($equipement->getIsEnable() != 1) {
+								$opacity = '
+								-webkit-filter: grayscale(100%);
+								-moz-filter: grayscale(100);
+								-o-filter: grayscale(100%);
+								-ms-filter: grayscale(100%);
+								filter: grayscale(100%); opacity: 0.35;';
+								}
+							if ($state == 'Telecommandes') {
+								$icon = "plugins/Telejee/doc/images/Telecommandes.png";
+							}  else {
+								$icon = $equipement->getConfiguration('logo');
+							}
+							echo '<div class="eqLogicDisplayCard cursor" data-eqLogic_id="' . $equipement->getId() . '" style="background-color : #ffffff; height : 200px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px; ' . $opacity . ' " >';
+							echo "<center>";
+							echo '<img src="' . $icon . '" height="50" width="50" />';
+							echo "</center>";
+							echo '<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;" ><center>' . $equipement->getHumanName(true, true) . '</center></span>';
+							echo '</div>';	
+														
 								
 							}
-							echo '</div>';							
-						}					
+							echo '</div>';	
 					}
-
+					}
     
            			 ?> 
-        </div>
     </div>  
 
   <div class="col-md-10 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
