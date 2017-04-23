@@ -1,5 +1,7 @@
 ﻿[horizontal]
 
+12.04.2017:: Correction du bug d'affichage. Changement icônes
+
 6.04.2017:: Charte graphique. Possibilité de créer des télécommandes (voir doc : 2 pour le moment mais en réfléxion et si besoin n'hésitez pas à faire la demande sur le forum). Pas besoin de réinstaller aprés installation. Mise à jour de la la doc.
 
 1.0:: Passage en version stable
