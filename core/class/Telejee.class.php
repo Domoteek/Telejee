@@ -1,5 +1,4 @@
 <?php
-
 /* This file is part of Jeedom.
  *
  * Jeedom is free software: you can redistribute it and/or modify
@@ -15,22 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
-
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 require_once dirname(__FILE__) . '/../../3rdparty/conversion.php';
-
 class Telejee extends eqLogic {
     /*     * *************************Attributs****************************** */
 	
 	
-
 	public static $_widgetPossibility = array('custom' => true);
-
     /*     * ***********************Methode static*************************** */
 	
 	public static function LaunchAction($id,$cmd) {
-
 		$eqLogic = eqLogic::byId($id);
 		$cmd= $eqLogic->getCmd(null,$cmd);
 		if (!is_object($cmd)) {
@@ -45,8 +39,6 @@ class Telejee extends eqLogic {
 			}
 		}	
 	}
-
-
 	
     /*     * *********************Methode d'instance************************* */
     public function getChainesconfig() {
@@ -84,11 +76,9 @@ class Telejee extends eqLogic {
 				   $Telejee->save();
 			   }
 		  }
-
 	 }
 	 
 	 
-
 	
 		 
 	 public static function editIconTele() {
@@ -133,6 +123,7 @@ class Telejee extends eqLogic {
 				$eqLogic->setConfiguration('type', 'soir');
 				$eqLogic->setConfiguration('tag', 'nom'.$chaine.'');
 				$eqLogic->setConfiguration('categ', 'chaine_sat');
+				
 		        $eqLogic->setConfiguration('logo', 'plugins/Telejee/core/template/dashboard/themes/'.$icon_tv.'/'.$chaine.'.gif');
 		        $eqLogic->setConfiguration('heure1', '');
                 $eqLogic->setConfiguration('image1', '');
@@ -261,7 +252,6 @@ class Telejee extends eqLogic {
 		  
 	 }		
 	
-
    public function progToTheNight() {
 			switch(config::byKey('choix_op', 'Telejee')) {
 			   case 0: $url = "http://www.programme-tv.net/programme/programme-tnt.html"; break;
@@ -272,7 +262,6 @@ class Telejee extends eqLogic {
 			   case 5: $url = "http://www.programme-tv.net/programme/canalsat-5/"; break;
 			   case 6: $url = "http://www.programme-tv.net/programme/cablecom-suisse-32/"; break;
 			   case 7: $url = "http://www.programme-tv.net/programme/numericable-belux-19/"; break; 
-
 			}
 			switch(config::byKey('choix_icon', 'Telejee')) {
 			   case 1: $icon_tv = "Simple"; break;
@@ -319,7 +308,6 @@ class Telejee extends eqLogic {
 		  
 			$Telejee = telejee::byTypeAndSearhConfiguration( 'Telejee', 'nom'.$chaine);
 				 if (in_array($chaine,$stack)) {
-
 						$titre1 = $xpath->query('.//a[@class="prog_name c-red-hover c-red fw-700 fs-3"]')->item(0)->nodeValue;
 						$titre2 = $xpath->query('.//a[@class="prog_name c-red-hover c-red fw-700 fs-3"]')->item(1)->nodeValue;
 						$lien1 = $xpath->query('.//a[@class="prog_name c-red-hover c-red fw-700 fs-3"]/@href')->item(0)->nodeValue ;
@@ -349,9 +337,7 @@ class Telejee extends eqLogic {
 				}				
 		}
 	}
-
 	public function progAtTheMoment() {
-
 			switch(config::byKey('choix_op', 'Telejee')) {
 			   case 0: $url = "http://www.programme-tv.net/programme/programme-tnt/"; break;
 			   case 1: $url = "http://www.programme-tv.net/programme/orange-12/"; break;
@@ -361,7 +347,6 @@ class Telejee extends eqLogic {
 			   case 5: $url = "http://www.programme-tv.net/programme/canalsat-5/"; break;
 			   case 6: $url = "http://www.programme-tv.net/programme/cablecom-suisse-32/"; break;
 			   case 7: $url = "http://www.programme-tv.net/programme/numericable-belux-19/"; break; 
-
 			}
 			switch(config::byKey('choix_icon', 'Telejee')) {
 			   case 1: $icon_tv = "Simple"; break;
@@ -405,7 +390,8 @@ class Telejee extends eqLogic {
 							$xpath = new DOMXPath($doc);		
 							$chaines =  $xpath->query('//a[@class="channel_label d-b fs-1 c-grey-2 td-n ta-c pt-xs o-h"]/@title');
 							$chaine = str_replace("Programme de ","",$chaines->item(0)->nodeValue);
-							$chaine = string_conversion($chaine);
+							
+							$chaine = string_conversion($chaine);						
 						if (in_array($chaine,$stack)) {
 							$Telejee = telejee::byTypeAndSearhConfiguration( 'Telejee', 'nom'.$chaine);
 							$search_title = $Telejee[0]->getConfiguration('search_tv');
@@ -422,15 +408,12 @@ class Telejee extends eqLogic {
 								$heure = date("H:i", $date->format('U'));					
 								
 							}							 
-
 								 
 							  $titre = $xpath->query('.//a[@class="prog_name c-red-hover c-red fw-700 fs-3"]')->item(0)->nodeValue;
 							 // log::add('Telejee', 'debug', 'titre: '. $titre);
 								 
-
 							  $lien =  $xpath->query('.//a[@class="prog_name c-red-hover c-red fw-700 fs-3"]/@href')->item(0)->nodeValue ;
 							 // log::add('Telejee', 'debug', 'lien: '. $lien);							
-
 							  $image =  $xpath->query('.//img/@data-src')->item(1)->nodeValue;
 							 // log::add('Telejee', 'debug', 'image: '. $image);
 							  $Telejee[0]->setConfiguration('titre', $titre);
@@ -462,13 +445,11 @@ class Telejee extends eqLogic {
 											}
 										 }
 									}
-
 						} 
 				}
 		 }
 	}
 	
-
 	public function newTel($name) {
 		$eqLogic = eqLogic::byLogicalId($name);
 		if (is_object($eqLogic)) {
@@ -486,7 +467,6 @@ class Telejee extends eqLogic {
 		$eqLogic->save();
 		}
 	}
-
 	public static function  AddCmd($cmds,$logical,$eqLogic) {
 		foreach( $cmds as $index => $cmd ) {
 			$commande = $eqLogic->getCmd(null,$logical[$index]);
@@ -496,7 +476,6 @@ class Telejee extends eqLogic {
 					$commande->setName($cmd);
 					$commande->setEqLogic_id($eqLogic->id);
 				}
-
 					$commande->setLogicalId($logical[$index]);
 					$commande->setIsVisible(1);
 					$commande->setType('action');
@@ -520,7 +499,6 @@ class Telejee extends eqLogic {
 	 
 	 
 	 public function postUpdate() {
-
 		 
 		if ($this->getConfiguration('type') == 'telco') {
 			
@@ -533,7 +511,6 @@ class Telejee extends eqLogic {
 			if ($this->getConfiguration('telco_type') == 'TV') {
 				$cmd = array('poweroff','menu','home','source','1','2','3','4','5','6','7','8','9','0','red','green','yellow','blue','info','volume-up','volume-down','volume-off','programme-up','programme-down','backward','forward','play','stop','registered','pause');
 				$logical = array('poweroff','menu','home','source','un','deux','trois','quatre','cing','six','sept','huit','neuf','zero','red','green','yellow','blue','info','volume-up','volume-down','volume-off','programme-up','programme-down','backward','forward','play','stop','registered','pause');
-
 				self::AddCmd($cmd,$logical,$this);
 			}			
 		
@@ -559,7 +536,6 @@ class Telejee extends eqLogic {
 			}
 		}
 	 }
-
    
    public function chargePlug() {
  
@@ -589,8 +565,6 @@ class Telejee extends eqLogic {
 				}
 		}
 	}
-
-
 	
 	public function toHtml($_version = 'dashboard') {
 		if ($this->getConfiguration('type') == 'telco') { 
@@ -637,19 +611,14 @@ class Telejee extends eqLogic {
 		cache::set('TelejeeWidget' . $_version . $this->getId(), $html, 0);
 		return $html;
 		}
-
 	} 
 }
-
 class TelejeeCmd extends cmd {
-
     public function dontRemoveCmd() {
         return true;
     }
 	
 	public function execute($_options = array()) {
     }
-
 }
-
 ?>
